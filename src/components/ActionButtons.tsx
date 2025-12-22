@@ -5,6 +5,7 @@ interface ActionButtonsProps {
   onSave: () => void;
   isGenerateDisabled: boolean;
   isLoading: boolean;
+  isSaveDisabled?: boolean;
 }
 
 export function ActionButtons({
@@ -12,6 +13,7 @@ export function ActionButtons({
   onSave,
   isGenerateDisabled,
   isLoading,
+  isSaveDisabled = true,
 }: ActionButtonsProps) {
   return (
     <div className="flex flex-col sm:flex-row gap-3">
@@ -26,9 +28,9 @@ export function ActionButtons({
 
       <button
         onClick={onSave}
-        disabled={true}
-        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed font-medium"
-        title="Coming soon"
+        disabled={isSaveDisabled}
+        className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors font-medium"
+        title={isSaveDisabled ? 'Generate content first' : 'Save to sheets'}
       >
         <Sheet className="w-5 h-5" />
         Save to Sheets
