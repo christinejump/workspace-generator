@@ -4,7 +4,7 @@ import { PresetButtons } from './components/PresetButtons';
 import { ActionButtons } from './components/ActionButtons';
 import { ResultsPanel } from './components/ResultsPanel';
 import { FormData, UIState, PresetConfig } from './lib/types';
-import { generateText } from './lib/api';
+import { generateText, saveContent } from './lib/api';
 import { Zap } from 'lucide-react';
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
   const [uiState, setUiState] = useState<UIState>('idle');
   const [result, setResult] = useState('');
   const [error, setError] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
 
   const handleFieldChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -41,6 +42,7 @@ function App() {
     setUiState('loading');
     setError('');
     setResult('');
+    setSaveMessage('');
 
     try {
       const response = await generateText(formData);
@@ -52,8 +54,21 @@ function App() {
     }
   };
 
-  const handleSave = () => {
-    // Placeholder for future Save to Sheets functionality
+  const handleSave = async () => {
+    if (!result) {
+      setSaveMessage('No content to save');
+      return;
+    }
+
+    try {
+      setSaveMessage('Saving...');
+      await saveContent(result);
+      setSaveMessage('✓ Content saved successfully!');
+      setTimeout(() => setSaveMessage(''), 3000);
+    } catch (err) {
+      setSaveMessage('Failed to save content');
+      setTimeout(() => setSaveMessage(''), 3000);
+    }
   };
 
   const isGenerateDisabled = !formData.topic.trim() || !formData.input.trim();
@@ -88,7 +103,11 @@ function App() {
               onSave={handleSave}
               isGenerateDisabled={isGenerateDisabled}
               isLoading={uiState === 'loading'}
+              isSaveDisabled={!result}
             />
+            {saveMessage && (
+              <p className="mt-2 text-sm text-gray-600 text-center">{saveMessage}</p>
+            )}
           </div>
         </div>
 
