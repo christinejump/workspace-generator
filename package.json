@@ -8,7 +8,9 @@
     "dev:backend": "tsx watch server/src/index.ts",
     "build": "vite build && npm run build:backend",
     "build:backend": "tsc -p server/tsconfig.json",
-    "start": "NODE_ENV=production node server/dist/index.js",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "vite preview --port 3000 --host 0.0.0.0",
+    "start:backend": "NODE_ENV=production node server/dist/index.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
