@@ -8,7 +8,7 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    allowedHosts: ['.preview.emergentagent.com'],
+    allowedHosts: ['workspace-gen.preview.emergentagent.com'],
     proxy: {
       '/api': {
         target: 'http://localhost:8001',
