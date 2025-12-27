@@ -106,21 +106,42 @@ This command:
 1. Builds the frontend (`vite build`) → creates `dist/` folder
 2. Compiles the backend TypeScript (`npm run build:backend`) → creates `server/dist/` folder
 
-### Run Production Server
+### Run Production Server (Local Testing)
 ```bash
 npm start
 ```
 
-This starts the Express server which:
-- Serves the production frontend from `dist/`
-- Provides API endpoints at `/api/*`
-- Handles React routing (returns `index.html` for all non-API routes)
+This starts **both** frontend and backend servers concurrently:
+- Frontend: Vite preview server on port 3000
+- Backend: Express API server on port 8001
 
-The production server runs on port 3001 by default (configurable via `PORT` environment variable).
+### Production Deployment (Emergent/Kubernetes)
 
-### Access Production App
-- Visit: http://localhost:3001
-- API: http://localhost:3001/api
+The application uses **Supervisor** to manage both services:
+
+**Supervisor Configuration:** `/etc/supervisor/conf.d/supervisord.conf`
+
+```ini
+[program:backend]
+command=node server/dist/index.js
+environment=NODE_ENV="production",PORT="8001"
+
+[program:frontend]
+command=npx vite preview --port 3000 --host 0.0.0.0
+```
+
+**Deploy Steps:**
+1. Build: `npm run build`
+2. Start supervisor: `sudo supervisorctl restart all`
+3. Access via Kubernetes ingress
+
+**Ports:**
+- Frontend: `3000` (serves static built files)
+- Backend API: `8001` (handles /api/* requests)
+
+**Health Checks:**
+- Backend: `GET http://localhost:8001/api/health` → `{"ok":true}`
+- Backend Root: `GET http://localhost:8001/` → `{"status":"ok","service":"workspace-generator-backend"}`
 
 ## Key Features
 
