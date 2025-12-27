@@ -154,8 +154,10 @@ command=npx vite preview --port 3000 --host 0.0.0.0
 ### Production
 - ✅ Optimized frontend build
 - ✅ Compiled TypeScript backend
-- ✅ Single server serves both frontend and API
+- ✅ Separate frontend (port 3000) and backend (port 8001) services
+- ✅ Supervisor manages both processes
 - ✅ Proper React Router support
+- ✅ Health check endpoints
 
 ### API
 - ✅ Mock text generation (3 tones × 3 lengths = 9 variants)
