@@ -17,7 +17,7 @@ export default defineConfig({
     },
   },
   preview: {
-    allowedHosts: ['.preview.emergentagent.com'],
+    allowedHosts: ['workspace-gen.preview.emergentagent.com'],
     port: 3000,
     host: '0.0.0.0',
     proxy: {
