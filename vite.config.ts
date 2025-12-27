@@ -8,6 +8,7 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
+    allowedHosts: ['.preview.emergentagent.com'],
     proxy: {
       '/api': {
         target: 'http://localhost:8001',
@@ -16,6 +17,7 @@ export default defineConfig({
     },
   },
   preview: {
+    allowedHosts: ['.preview.emergentagent.com'],
     port: 3000,
     host: '0.0.0.0',
     proxy: {
