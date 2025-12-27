@@ -182,11 +182,15 @@ server: {
 ```
 
 ### Backend Port
-Default: 3001
+Default: 8001 (required for Emergent deployment)
 Override with environment variable:
 ```bash
-PORT=4000 npm start
+PORT=8001 npm run start:backend
 ```
+
+### Frontend Port
+Default: 3000 (required for Emergent deployment)
+Fixed in Vite preview configuration
 
 ## Testing the API
 
