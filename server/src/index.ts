@@ -4,7 +4,7 @@ import path from 'path';
 import apiRoutes from './routes/api';
 
 const app: Express = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8001;
 
 // Middleware
 app.use(cors());
