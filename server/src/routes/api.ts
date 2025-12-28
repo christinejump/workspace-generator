@@ -89,7 +89,7 @@ router.post("/save", async (req, res) => {
 
     // Passthrough base URL: https://api.picaos.com/v1/passthrough/{path}
     // {path} is the underlying third-party API endpoint path (Google Sheets v4 append). :contentReference[oaicite:0]{index=0}
-    const encodedRange = encodeURIComponent(range);
+    const encodedRange = encodeURIComponent(range).replace(/'/g, "%27");
     const path =
       `v4/spreadsheets/${spreadsheetId}/values/${encodedRange}:append` +
       `?valueInputOption=RAW&insertDataOption=INSERT_ROWS`;
